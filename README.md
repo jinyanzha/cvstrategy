@@ -3,7 +3,7 @@
 This project includes a tutorial describing how generative AI tools were
 used during the development of this package.
 
-- 📘 [GenAI Tutorial](GenAI_Tutorial.md)
+-  [GenAI Tutorial](GenAI_Tutorial.md)
 
 
 # cvstrategy
