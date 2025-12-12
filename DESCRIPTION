@@ -1,0 +1,29 @@
+Package: cvstrategy
+Type: Package
+Title: Compare Cross-Validation Strategies for L1-Regularized Logistic Regression
+Version: 0.1.0
+Authors@R: 
+    person("Jinyan", "Zha", email = "jinyanz@umich.edu",role = c("aut", "cre"))
+Description: 
+    Provides a simple interface to compare four cross-validation strategies
+    (basic, warm-start, adaptive coarse-to-fine search, and cv.glmnet) for
+    L1-regularized logistic regression via glmnet. The main function takes a
+    design matrix X and binary response y and returns a summary table with
+    performance, runtime, and stability metrics. Plotting helpers are included
+    for CV error curves and coefficient paths.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    glmnet,
+    pROC,
+    dplyr,
+    tidyr,
+    ggplot2,
+    gridExtra
+Suggests:
+    mlbench
+RemoteType: local
+RemotePkgRef: local::.
+RemoteUrl: C:/Users/57146/cvcompare
