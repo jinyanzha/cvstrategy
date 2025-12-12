@@ -1,0 +1,54 @@
+# GenAI Tutorial: Using Generative AI in Developing `cvstrategy`
+
+This document describes how generative AI tools (e.g. ChatGPT) were used
+to assist the development of the `cvstrategy` R package.
+
+## 1. Project Overview
+
+The goal of this project is to compare multiple cross-validation strategies
+for selecting the regularization parameter in L1-regularized logistic regression.
+The package provides both numerical summaries and visualization tools.
+
+## 2. How Generative AI Was Used
+
+Generative AI was used as a programming assistant throughout the project.
+
+### 2.1 Algorithm Design and Structure
+
+AI was used to:
+- Discuss the differences between basic CV, warm-start CV, adaptive CV, and `cv.glmnet`
+- Help design a consistent return structure for all CV methods
+- Suggest reasonable stability metrics based on fold-level variability
+
+Example prompt:
+> "How can I compare different cross-validation strategies for L1-regularized logistic regression in R?"
+
+### 2.2 R Package Development
+
+AI assisted with:
+- Writing R functions following package conventions
+- Adding roxygen2 documentation
+- Structuring the DESCRIPTION and NAMESPACE files
+- Debugging errors related to function exports and examples
+
+Example prompt:
+> "How do I add examples to a roxygen2-documented R function?"
+
+### 2.3 Visualization
+
+AI helped design visualization functions such as:
+- CV error curves
+- Coefficient path comparisons
+
+Example prompt:
+> "How can I visualize CV error curves for multiple methods using ggplot2?"
+
+## 3. Limitations
+
+While generative AI was helpful, all code was reviewed and tested manually.
+Final design decisions and debugging were done by the author.
+
+## 4. Conclusion
+
+Generative AI served as a productivity and learning tool, helping accelerate
+development and clarify best practices for R package construction.
