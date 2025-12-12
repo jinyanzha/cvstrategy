@@ -1,74 +1,85 @@
 
 
+# cvcompare
+
 ## Overview
 
-`lmr()` is a linear regression function developed in R that provides a easy way for finding the association betwwen variables.
-This function allows users to fit a linear model, obtain regression coefficients, calculate residuals, and assess model quality 
-through metrics such as R-squared and F-statistic.
+`cvcompare` is an R package designed to compare multiple cross-validation
+strategies for L1-regularized logistic regression.  
+The package provides a unified framework for evaluating predictive
+performance, computational efficiency, and stability of different
+cross-validation schemes.
 
-- You can learn more about `lmr` in `vignette("introduction",package="jyzlmr")`.
-- You can run example in `?lmr` help page
-- You can find the comparison between `lmr` and original function `lm` in `vignette("comparison",package="jyzlmr")`
+Specifically, `cvcompare` implements and compares four approaches:
+basic cross-validation, warm-start cross-validation, adaptive
+coarse-to-fine search, and the official `cv.glmnet` procedure.
 
+- You can run examples in the `?compare_cv_methods` help page.
+- The package outputs a summary table for easy comparison across methods.
+- Visualization functions are provided for CV error curves and coefficient paths.
 
+---
 
 ## Features
 
-`lmr()` can output the following data:
+`cvcompare` provides the following functionality:
 
-- Regression coefficients for a linear model.
-  
+- Compare four cross-validation strategies for L1-regularized logistic regression:
+  - Basic CV (cold start)
+  - Warm-start CV
+  - Adaptive coarse-to-fine CV
+  - Official `cv.glmnet`
 
-- Provide standard errors, t-values, and p-values for the estimated coefficients.
+- Automatically select the optimal regularization parameter (`lambda`)
+  for each method.
 
-- model metrics including R-squared, Adjusted R-squared, and F-statistic.
+- Report predictive performance metrics, including:
+  - Cross-validated deviance
+  - Classification accuracy
+  - AUC
 
-- Display a summary of residuals.
- 
-- Confidence Interval for all regression coefficients
+- Quantify model stability across folds using coefficient variability.
+
+- Measure and report runtime for each cross-validation strategy.
+
+- Provide plotting utilities for:
+  - Cross-validation error curves
+  - Coefficient paths across lambda values
+
+---
 
 ## Installation
 
-``` r
-# Install devtools if it is not already installed
+```r
+# Install devtools if not already installed
 install.packages("devtools")
 
-# Install lmr from GitHub
-devtools::install_github("jinyanzha/jyzlmr")
+# Install cvcompare from GitHub
+devtools::install_github("jinyanzha/cvcompare")
 ```
+
 
 
 
 ## Usage
 
 ``` r
-library(jyzlmr)
-data=mtcars
-result <- lmr("mpg", "wt + hp + qsec", data)
-print(result)
+library(cvstrategy)
+data(Sonar, package = "mlbench")
 
-"Residual standard error:  2.58  on  28  degrees of freedom Multiple R-squared:  0.8348 ,
-Adjusted R-squared:  0.8171 F-statistic:  47.15  on  3  and  28  DF, p-value:  4.506417e-11"
+X <- as.matrix(Sonar[, 1:60])
+y <- ifelse(Sonar$Class == "M", 1, 0)
 
-Residual Table
-#>             min       1Q     Median   3Q    Max  
-#>   value  -3.859   -1.642    -0.464  1.194  5.609
+tab <- compare_cv_methods(X, y, K = 5, seed = 1)
+print(tab)
 
+    method best_lambda best_cvm train_mse  accuracy       auc stability_sd_best stability_mean_sd runtime
+1    basic  0.03359275 1.070146 0.1343958 0.8173077 0.9083310        0.09162666        1.33953828    0.19
+2     warm  0.03359275 1.070146 0.1343958 0.8173077 0.9083310        0.09162666        1.33953828    0.19
+3 adaptive  0.03248939 1.070109 0.1332396 0.8125000 0.9099099        0.09063466        0.08706317    0.11
+4 official  0.03359275 1.070493 0.1343958 0.8173077 0.9083310        0.09162666        1.33953828    0.37
 
-Regression_table
-#>                 Estimate  Std_Error   t_value      p_value
-#>   (Intercept) 27.61052686 8.41992848  3.279188 2.784556e-03
-#>   wt          -4.35879720 0.75270039 -5.790879 3.217222e-06    
-#>   hp          -0.01782227 0.01498117 -1.189645 2.441762e-01   
-#>   qsec         0.51083369 0.43922153  1.163043 2.546284e-01
-
-
-Confidence_intervals
-#>                Lower_95    Upper_95
-#>  (Intercept) 10.3630852 44.85796848
-#>  wt          -5.9006341 -2.81696034
-#>  hp          -0.0485098  0.01286526
-#>  qsec        -0.3888708  1.41053822   
+  
 ```
 
 ## Function Details
